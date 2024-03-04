@@ -4,7 +4,6 @@ import {
   GraphQLInt,
   GraphQLNonNull,
   GraphQLObjectType,
-  GraphQLString,
 } from 'graphql';
 import { UUIDType } from './uuid.js';
 import { UserType } from './user.js';
@@ -29,7 +28,7 @@ export const ProfileType = new GraphQLObjectType({
     memberType: {
       type: new GraphQLNonNull(MemberType),
       resolve: async ({ memberTypeId }, _args, context: GraphQLContext) => {
-        return context.prisma.memberType.findUnique({ where: { id: memberTypeId } });
+        return context.loaders.memberType.load(memberTypeId);
       },
     },
     memberTypeId: {

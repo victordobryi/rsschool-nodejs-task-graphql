@@ -1,9 +1,4 @@
-import {
-  GraphQLBoolean,
-  GraphQLNonNull,
-  GraphQLObjectType,
-  GraphQLString,
-} from 'graphql';
+import { GraphQLBoolean, GraphQLNonNull, GraphQLObjectType } from 'graphql';
 import { ChangePostInput, CreatePostInput, PostType } from './types/post.js';
 import { GraphQLContext } from './types/app.js';
 import { ChangeUserInput, CreateUserInput, UserType } from './types/user.js';

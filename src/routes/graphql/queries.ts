@@ -1,4 +1,4 @@
-import { GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'graphql';
+import { GraphQLList, GraphQLNonNull, GraphQLObjectType } from 'graphql';
 import { MemberType, MemberTypeIdType } from './types/memberType.js';
 import { ProfileType } from './types/profile.js';
 import { GraphQLContext } from './types/app.js';
@@ -23,7 +23,7 @@ export const query = new GraphQLObjectType({
         },
       },
       resolve: async (_source, args, context: GraphQLContext) => {
-        return context.prisma.memberType.findUnique({ where: { id: args.id } });
+        return context.loaders.memberType.load(args.id);
       },
     },
     profiles: {
@@ -40,7 +40,7 @@ export const query = new GraphQLObjectType({
         },
       },
       resolve: async (_source, args, context: GraphQLContext) => {
-        return context.prisma.profile.findUnique({ where: { id: args.id } });
+        return context.loaders.profile.load(args.id);
       },
     },
     posts: {
@@ -57,7 +57,7 @@ export const query = new GraphQLObjectType({
         },
       },
       resolve: async (_source, args, context: GraphQLContext) => {
-        return context.prisma.post.findUnique({ where: { id: args.id } });
+        return context.loaders.post.load(args.id);
       },
     },
     users: {
@@ -74,7 +74,7 @@ export const query = new GraphQLObjectType({
         },
       },
       resolve: async (_source, args, context: GraphQLContext) => {
-        return context.prisma.user.findUnique({ where: { id: args.id } });
+        return context.loaders.user.load(args.id);
       },
     },
   }),

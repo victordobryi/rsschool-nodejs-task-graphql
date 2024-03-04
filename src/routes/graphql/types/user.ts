@@ -20,34 +20,29 @@ export const UserType = new GraphQLObjectType({
     profile: {
       type: ProfileType,
       resolve: async ({ id }, _args, context: GraphQLContext) => {
-        return context.prisma.profile.findUnique({ where: { userId: id } });
+        return context.loaders.profileByUser.load(id);
       },
     },
     posts: {
       type: new GraphQLNonNull(new GraphQLList(PostType)),
       resolve: async ({ id }, _args, context: GraphQLContext) => {
-        return context.prisma.post.findMany({ where: { authorId: id } });
+        return context.loaders.postsByUser.load(id);
       },
     },
     userSubscribedTo: {
       type: new GraphQLNonNull(new GraphQLList(UserType)),
       resolve: async ({ id }, _args, context: GraphQLContext) => {
-        return context.prisma.user.findMany({
-          where: { subscribedToUser: { some: { subscriberId: id } } },
-        });
+        return context.loaders.userSubscribedTo.load(id);
       },
     },
     subscribedToUser: {
       type: new GraphQLNonNull(new GraphQLList(UserType)),
       resolve: async ({ id }, _args, context: GraphQLContext) => {
-        return context.prisma.user.findMany({
-          where: { userSubscribedTo: { some: { authorId: id } } },
-        });
+        return context.loaders.subscribedToUser.load(id);
       },
     },
   }),
 });
-
 
 export const CreateUserInput = new GraphQLInputObjectType({
   name: 'CreateUserInput',
@@ -60,7 +55,6 @@ export const CreateUserInput = new GraphQLInputObjectType({
     },
   }),
 });
-
 
 export const ChangeUserInput = new GraphQLInputObjectType({
   name: 'ChangeUserInput',
